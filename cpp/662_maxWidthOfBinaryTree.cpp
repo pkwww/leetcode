@@ -50,7 +50,23 @@ public:
     }
     
     int bfs(TreeNode* root) {
-        
+        int max_w = 1;
+        queue<pair<unsigned long long, TreeNode*>> q{};
+        q.push({0, root});
+        while (!q.empty()) {
+            int w = q.back().first - q.front().first + 1;
+            max_w = max(max_w, w);
+            int size = q.size();
+            for (int j = 0; j < size; j++) {
+                auto [i, node] = q.front();
+                q.pop();
+                if (node->left != nullptr)
+                    q.push({2*i+1, node->left});
+                if (node->right != nullptr)
+                    q.push({2*i+2, node->right});
+            }
+        }
+        return max_w;
     }
     
     int widthOfBinaryTree(TreeNode* root) {
